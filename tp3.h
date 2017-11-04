@@ -1,4 +1,5 @@
 #define Nmax 20
+#define Mmax 100
 
 typedef struct Element {
     char valeur[Nmax];
@@ -12,11 +13,21 @@ typedef struct Liste {
     T_Element*q;
 }T_Liste;
 
+typedef struct TabListe {
+    char nom_liste[Nmax];
+    T_Liste *liste;
+}TabListe;
+
+typedef struct Table {
+    TabListe *Tableau[Mmax];
+}Table;
+
 T_Element *creerElement (char *val);
 T_Element *creationElement() ;
 T_Liste *creerListe();
+TabListe *creationListe();
 int insererElement(T_Liste *list);
 void afficherListe(T_Liste *l);
 T_Element *rechercherElement (T_Liste * list, char * val);
-void Rechercher ();
+void Rechercher (Table *table1);
 
