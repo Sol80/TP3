@@ -7,8 +7,12 @@
 
 int main()
 {
-    T_Liste *l1;
+    TabListe *tab1;
+    T_Liste *list1;
     int choix;
+    Table *table1;
+    int i=0;
+    table1=malloc(sizeof(Table));
 
     do
     {
@@ -23,13 +27,12 @@ int main()
         scanf("%d", &choix);
 
         switch(choix){
-            case 1 : l1 = creerListe(); break;
-            case 2 : insererElement(l1); break; //Faire affichage Echec/Erreur
-            case 5 : afficherListe(l1); break;
-            case 6 : Rechercher ();
-            case 8 : break; //on va quitter <3
+            case 1 : tab1 = creationListe(); list1 = tab1->liste; table1->Tableau[i]=tab1; i++; break; //on cree une liste et on l ajoute dans le tableau des listes
+            case 2 : insererElement(list1); break; //Faire affichage Echec/Erreur
+            case 5 : afficherListe(list1); break;
+            case 6 : Rechercher (table1);
+            case 8 : break; //pour quitter
             default : break;
         }
     } while (choix != 8);
 }
-
