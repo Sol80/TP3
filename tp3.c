@@ -27,6 +27,20 @@ T_Liste *creerListe() {
     return l;
 }
 
+TabListe *creationListe(){
+    char nom_list[Nmax];
+    TabListe *tab1;
+    tab1=malloc(sizeof(TabListe));
+    T_Liste *list1;
+    printf("donner le nom de la liste a creer\n");
+    scanf("%s",&nom_list);
+    list1 = creerListe();
+    printf("test");
+    tab1->liste=list1;
+    //tab1->nom_liste=nom_list;
+    strcpy(tab1->nom_liste,nom_list);
+    return tab1;
+}
 
 T_Element *creationElement() {
     printf("donner le nom de l element\n");
@@ -35,8 +49,8 @@ T_Element *creationElement() {
     //gets(val);
     scanf("%s",&val);
     el1=creerElement (val);
-    printf("Element : le nom est %s, valeur precedent %d, valeur suivant %d \n",el1->valeur,el1->prec, el1->suiv);
-
+    //printf("Element : le nom est %s, valeur precedent %d, valeur suivant %d \n",el1->valeur,el1->prec, el1->suiv);
+    return el1;
 }
 
 void afficherListe(T_Liste *l)
@@ -112,24 +126,63 @@ int insererElement(T_Liste *liste){
 
 T_Element *rechercherElement (T_Liste * list, char * val){
     int n,i;
+    int succes=0;
     T_Element *elem_courant;
     n=list->taille;
     elem_courant=list->t;
     for (i=0;i<n;i++){
         if (strcmp(elem_courant->valeur,val)!=0)
             elem_courant=elem_courant->suiv;
-        else return elem_courant;
+        else succes=1;
     }
+    if (succes==1)
+        return elem_courant;
+    else { printf("l element recherche n est pas present dans la liste\n");
+            return NULL; }
 }
 
-void Rechercher (){ //pour afficher les questions avant la recherche et le resultat de la recherche
-    char val_elem,nom_liste;
+void Rechercher (Table *table1){ //pour afficher les questions avant la recherche et le resultat de la recherche
+
+    char val_elem[Nmax],nom_liste1[Nmax],nom_en_cours[Nmax];
     T_Element *elem1;
-    printf("Donner le nom de l element rechercher\n");
-    scanf("%s",&val_elem);
+    T_Liste *list1;
+    TabListe *tablist1;
+    int n;
+    int i=0;
+    int succes=-1;
+
     printf("Donner le nom de la liste dans laquelle rechercher\n");
-    scanf("%s",&nom_liste);
-    elem1=rechercherElement (nom_liste,val_elem);
-    printf("nom de l element : %s\n",elem1->valeur);
+    scanf("%s",&nom_liste1);
+    printf("Donner le nom de l element a rechercher\n");
+    scanf("%s",&val_elem);
+
+    tablist1=table1->Tableau[0];
+    strcpy(nom_en_cours,tablist1->nom_liste); //on recupere le nom de la premiere liste
+    list1=tablist1->liste; //on recupere le pointeur sur la premiere liste
+    n=sizeof(table1)/4; //la taille d un element du tableau vaut 4 donc on divise par 4 pour avoir le nombre d elements du tableau
+
+    while (i<n){ //tant qu'on n'a pas parcouru tout le tableau on fait:
+
+        if (strcmp(nom_en_cours,nom_liste1);!=0){ //si le nom de la liste du tableau est different de celui demande on fait:
+            if (i<n-1){
+                i++; //si on a pas atteint le dernier element, on prend l element suivant du tableau
+                tablist1=table1->Tableau[i];
+                strcpy(nom_en_cours,tablist1->nom_liste);
+                list1=tablist1->liste;
+            }else i++;
+        }else {
+        succes=i; //succes prend la valeur de i pour laquelle le nom de la liste de l element i du tableau est egale au nom de liste demande
+        i=n; //i prend la valeur n pour que l'on sorte de la boucle
+        }
+    }
+
+    if (succes!=-1){
+        list1=table1->Tableau[succes]->liste;
+        elem1=rechercherElement (list1,val_elem);
+        printf("nom de l element : %s\n",elem1->valeur);
+    } else printf("le nom de la liste n est pas correct\n");
+
+    return 0;
 }
+
 
