@@ -30,4 +30,7 @@ int insererElement(T_Liste *list);
 void afficherListe(T_Liste *l);
 T_Element *rechercherElement (T_Liste * list, char * val);
 void Rechercher (Table *table1);
-
+int supprimerElement (T_Liste * list,char * val);
+void suppressionElement (Table *table1);
+int supprimerListe (T_Liste * list);
+void suppressionListe (Table *table1);
