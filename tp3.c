@@ -35,7 +35,6 @@ TabListe *creationListe(){
     printf("donner le nom de la liste a creer\n");
     scanf("%s",&nom_list);
     list1 = creerListe();
-    printf("test");
     tab1->liste=list1;
     //tab1->nom_liste=nom_list;
     strcpy(tab1->nom_liste,nom_list);
@@ -163,7 +162,7 @@ void Rechercher (Table *table1){ //pour afficher les questions avant la recherch
 
     while (i<n){ //tant qu'on n'a pas parcouru tout le tableau on fait:
 
-        if (strcmp(nom_en_cours,nom_liste1);!=0){ //si le nom de la liste du tableau est different de celui demande on fait:
+        if (strcmp(nom_en_cours,nom_liste1)!=0){ //si le nom de la liste du tableau est different de celui demande on fait:
             if (i<n-1){
                 i++; //si on a pas atteint le dernier element, on prend l element suivant du tableau
                 tablist1=table1->Tableau[i];
@@ -185,4 +184,126 @@ void Rechercher (Table *table1){ //pour afficher les questions avant la recherch
     return 0;
 }
 
+int supprimerElement (T_Liste * list,char * val){
+    T_Element * elem, * predecesseur, * successeur;
+    elem = rechercherElement(list,val);
+    if (elem != NULL){  //on execute la fonction si on a trouve l element a supprimer
+        /*predecesseur=elem->prec; //on recupere un pointeur vers le predecesseur de l element a supprimer
+        successeur=elem->suiv;  //on recupere un pointeur vers le successeur de l element a supprimer
+        predecesseur->suiv = successeur; //on indique que le successeur de l element avant l element supprime est le successeur initial de l element supprime
+        successeur->prec = predecesseur;*/  //on indique que le predecesseur de l element apres l element supprime est le predecesseur initial de l element supprime
+        //elem->prec->suiv=elem->suiv;
+        //elem->suiv->prec=elem->prec;
+        free(elem);  //on libere l espace memoire aloue a l element supprime
+        return 0;
+    }
+    else return -1; //si on a pas trouve l element on retourne une erreur => la suppression n a pas fonctionne
+}
 
+void suppressionElement (Table *table1){
+
+    char val_elem[Nmax],nom_liste1[Nmax],nom_en_cours[Nmax];
+    T_Element *elem1;
+    T_Liste *list1;
+    TabListe *tablist1;
+    int n,resultat;
+    int i=0;
+    int succes=-1;
+
+    printf("Donner le nom de la liste dans laquelle supprimer un element\n");
+    scanf("%s",&nom_liste1);
+    printf("Donner le nom de l element a supprimer\n");
+    scanf("%s",&val_elem);
+
+    tablist1=table1->Tableau[0];
+    strcpy(nom_en_cours,tablist1->nom_liste); //on recupere le nom de la premiere liste
+    list1=tablist1->liste; //on recupere le pointeur sur la premiere liste
+    n=sizeof(table1)/4; //la taille d un element du tableau vaut 4 donc on divise par 4 pour avoir le nombre d elements du tableau
+
+    while (i<n){ //tant qu'on n'a pas parcouru tout le tableau on fait:
+
+        if (strcmp(nom_en_cours,nom_liste1)!=0){ //si le nom de la liste du tableau est different de celui demande on fait:
+            if (i<n-1){
+                i++; //si on a pas atteint le dernier element, on prend l element suivant du tableau
+                tablist1=table1->Tableau[i];
+                strcpy(nom_en_cours,tablist1->nom_liste);
+                list1=tablist1->liste;
+            }else i++;
+        }else {
+        succes=i; //succes prend la valeur de i pour laquelle le nom de la liste de l element i du tableau est egale au nom de liste demande
+        i=n; //i prend la valeur n pour que l'on sorte de la boucle
+        }
+    }
+
+    if (succes!=-1){
+        list1=table1->Tableau[succes]->liste;
+        resultat = supprimerElement (list1,val_elem);
+        if (resultat == 0)
+            printf("la suppression a bien ete realisee\n");
+        else printf("echec de la suppression\n");
+    } else printf("le nom de la liste n est pas correct\n");
+
+    return 0;
+}
+
+int supprimerListe (T_Liste * list){
+    int i,n,succes;
+    n = list->taille;
+    T_Element * elem;
+    elem=list->t;
+    for (i=0;i<n;i++){
+        succes=supprimerElement(list,elem->valeur); //on supprime chaque element de la liste choisie
+        if (succes != 0){
+            printf("echec de la suppression\n");
+            return -1; //si on n arrive pas a supprimer un element de la liste on retourne une erreur
+        }
+        if (i != n-1)
+            elem=elem->suiv; //une fois l element supprime on prend le suivant si ce n est pas le dernier
+    }
+    free(list); //une fois tous les elements supprimes on libere l espace memoire de la liste supprimee
+    return 0;
+}
+
+void suppressionListe (Table *table1){
+
+    char nom_liste1[Nmax],nom_en_cours[Nmax];
+    T_Liste *list1;
+    TabListe *tablist1;
+    int n,resultat;
+    int i=0;
+    int succes=-1;
+
+    printf("Donner le nom de la liste dans laquelle supprimer un element\n");
+    scanf("%s",&nom_liste1);
+
+    tablist1=table1->Tableau[0];
+    strcpy(nom_en_cours,tablist1->nom_liste); //on recupere le nom de la premiere liste
+    list1=tablist1->liste; //on recupere le pointeur sur la premiere liste
+    n=sizeof(table1)/4; //la taille d un element du tableau vaut 4 donc on divise par 4 pour avoir le nombre d elements du tableau
+
+
+    while (i<n){ //tant qu'on n'a pas parcouru tout le tableau on fait:
+
+        if (strcmp(nom_en_cours,nom_liste1)!=0){ //si le nom de la liste du tableau est different de celui demande on fait:
+            if (i<n-1){
+                i++; //si on a pas atteint le dernier element, on prend l element suivant du tableau
+                tablist1=table1->Tableau[i];
+                strcpy(nom_en_cours,tablist1->nom_liste);
+                list1=tablist1->liste;
+            }else i++;
+        }else {
+        succes=i; //succes prend la valeur de i pour laquelle le nom de la liste de l element i du tableau est egale au nom de liste demande
+        i=n; //i prend la valeur n pour que l'on sorte de la boucle
+        }
+    }
+
+    if (succes!=-1){
+        list1=table1->Tableau[succes]->liste;
+        resultat = supprimerListe(list1);
+        if (resultat == 0)
+            printf("la suppression a bien ete realisee\n");
+        else printf("echec de la suppression\n");
+    } else printf("le nom de la liste n est pas correct\n");
+
+    return 0;
+}
